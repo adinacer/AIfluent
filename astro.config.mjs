@@ -6,8 +6,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://aiflunce.github.io',
-  base: '/',
+  site: 'https://adinacer.github.io',
+  base: '/aifluent',
   integrations: [
     mdx(),
     tailwind(),
