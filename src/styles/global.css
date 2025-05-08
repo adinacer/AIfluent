@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-50: 240 249 255;
+    --color-primary-100: 224 242 254;
+    --color-primary-200: 186 230 253;
+    --color-primary-300: 125 211 252;
+    --color-primary-400: 56 189 248;
+    --color-primary-500: 14 165 233;
+    --color-primary-600: 2 132 199;
+    --color-primary-700: 3 105 161;
+    --color-primary-800: 7 89 133;
+    --color-primary-900: 12 74 110;
+  }
+
+  /* Code block styles */
+  pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-4;
+  }
+
+  pre code {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+
+  /* Inline code */
+  :not(pre) > code {
+    @apply bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm text-gray-800 dark:text-gray-200;
+  }
+
+  /* Code block syntax highlighting */
+  .dark pre .token.comment,
+  .dark pre .token.prolog,
+  .dark pre .token.doctype,
+  .dark pre .token.cdata {
+    @apply text-gray-400;
+  }
+
+  .dark pre .token.punctuation {
+    @apply text-gray-300;
+  }
+
+  .dark pre .token.property,
+  .dark pre .token.tag,
+  .dark pre .token.boolean,
+  .dark pre .token.number,
+  .dark pre .token.constant,
+  .dark pre .token.symbol {
+    @apply text-blue-400;
+  }
+
+  .dark pre .token.selector,
+  .dark pre .token.attr-name,
+  .dark pre .token.string,
+  .dark pre .token.char,
+  .dark pre .token.builtin {
+    @apply text-green-400;
+  }
+
+  .dark pre .token.operator,
+  .dark pre .token.entity,
+  .dark pre .token.url,
+  .dark pre .language-css .token.string,
+  .dark pre .style .token.string,
+  .dark pre .token.variable {
+    @apply text-yellow-400;
+  }
+
+  .dark pre .token.atrule,
+  .dark pre .token.attr-value,
+  .dark pre .token.keyword {
+    @apply text-purple-400;
+  }
+
+  .dark pre .token.function,
+  .dark pre .token.class-name {
+    @apply text-red-400;
+  }
+
+  .dark pre .token.regex,
+  .dark pre .token.important {
+    @apply text-orange-400;
+  }
+}
+
+@layer components {
+  .aspect-w-16 {
+    position: relative;
+    padding-bottom: 56.25%;
+  }
+
+  .aspect-w-16 > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+} 

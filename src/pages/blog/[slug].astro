@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import NewsletterForm from '../../components/NewsletterForm.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post: any) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const post: any = Astro.props;
+const { Content } = await post.render();
+
+// Get related posts (excluding current post)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+	.filter((p: any) => p.slug !== post.slug)
+	.sort((a: any, b: any) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+	.slice(0, 3);
+---
+
+<Layout
+	title={post.data.title}
+	description={post.data.description}
+	image={post.data.image}
+	article={true}
+	publishedTime={post.data.date}
+	authors={[post.data.author]}
+>
+	<article class="max-w-4xl mx-auto px-4 py-12">
+		<header class="mb-8">
+			<img
+				src={post.data.image}
+				alt={post.data.title}
+				class="w-full h-96 object-cover rounded-xl mb-8"
+			/>
+			<div class="flex items-center gap-4 text-gray-600 dark:text-gray-400 text-sm mb-4">
+				<span class="px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400">
+					{post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1).replace('-', ' ')}
+				</span>
+				<time datetime={post.data.date}>
+					{new Date(post.data.date).toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: 'long',
+						day: 'numeric',
+					})}
+				</time>
+				<span>•</span>
+				<span>{post.data.author}</span>
+			</div>
+			<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">{post.data.title}</h1>
+			<p class="text-lg text-gray-600 dark:text-gray-300">{post.data.description}</p>
+		</header>
+		<div class="prose prose-lg dark:prose-invert max-w-none">
+			<Content />
+		</div>
+	</article>
+
+	<!-- Continue Reading Section -->
+	<section class="bg-gray-50 dark:bg-gray-800 py-16">
+		<div class="container mx-auto px-4">
+			<div class="text-center mb-12">
+				<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Continue Reading</h2>
+				<p class="text-lg text-gray-600 dark:text-gray-300">
+					Explore more articles on AI development and best practices
+				</p>
+			</div>
+
+			<div class="grid md:grid-cols-3 gap-8">
+				{relatedPosts.map((relatedPost: any) => (
+					<a
+						href={`/blog/${relatedPost.slug}`}
+						class="group bg-white dark:bg-gray-900 rounded-xl shadow-lg dark:shadow-gray-800/50 overflow-hidden hover:shadow-xl dark:hover:shadow-gray-800/70 transition-shadow"
+					>
+						<div class="aspect-w-16 aspect-h-9">
+							<img
+								src={relatedPost.data.image}
+								alt={relatedPost.data.title}
+								class="w-full h-48 object-cover"
+							/>
+						</div>
+						<div class="p-6">
+							<div class="flex items-center gap-4 mb-3">
+								<span class="px-3 py-1 text-sm font-medium text-primary-500 bg-primary-50 dark:bg-primary-900/20 rounded-full">
+									{relatedPost.data.category}
+								</span>
+								<span class="text-sm text-gray-500 dark:text-gray-400">
+									{new Date(relatedPost.data.date).toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric'
+									})}
+								</span>
+							</div>
+							<h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+								{relatedPost.data.title}
+							</h3>
+							<p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+								{relatedPost.data.description}
+							</p>
+						</div>
+					</a>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<NewsletterForm />
+</Layout> 

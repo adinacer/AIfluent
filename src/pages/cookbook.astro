@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="The AI SaaS Cookbook - AI Builders">
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">The AI SaaS Cookbook</h1>
+          <p class="text-xl text-gray-600 dark:text-gray-400">
+            Everything you need to build and launch AI-powered SaaS products
+          </p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-hidden">
+          <div class="p-8 md:p-12">
+            <div class="prose dark:prose-invert max-w-none">
+              <h2>What's Inside</h2>
+              <ul>
+                <li>Complete AI SaaS architecture templates</li>
+                <li>Production-ready code examples</li>
+                <li>Deployment guides for major cloud providers</li>
+                <li>Security best practices for AI applications</li>
+                <li>Scaling strategies for AI workloads</li>
+                <li>Cost optimization techniques</li>
+                <li>User authentication and management</li>
+                <li>API design patterns for AI services</li>
+                <li>Monitoring and observability setup</li>
+                <li>Testing strategies for AI applications</li>
+              </ul>
+
+              <div class="mt-12 p-6 bg-primary-50 dark:bg-primary-900/20 rounded-xl">
+                <h3 class="text-2xl font-bold mb-4">Get Started Today</h3>
+                <p class="mb-6">
+                  Join thousands of developers building the future of AI applications.
+                  Get instant access to the complete cookbook and start building.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="#"
+                    class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-white bg-primary-500 rounded-lg hover:bg-primary-600 transition-colors"
+                  >
+                    Purchase Now
+                  </a>
+                  <span class="text-gray-600 dark:text-gray-400 self-center">
+                    or
+                  </span>
+                  <button
+                    class="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-primary-500 bg-white dark:bg-gray-800 border border-primary-500 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    View Sample Chapter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-16 bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8">
+          <h2 class="text-2xl font-bold mb-6">Stay Updated</h2>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Get dev cookbooks, free scripts, and guides in your inbox.
+          </p>
+          <form class="flex flex-col sm:flex-row gap-4">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="flex-1 px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"
+              required
+            />
+            <button
+              type="submit"
+              class="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout> 
