@@ -6,19 +6,19 @@ const latestPosts = await getCollection('blog');
 latestPosts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => 
 	new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
 );
-const threeLatestPosts = latestPosts.slice(0, 3);
+const threeLatestPosts = latestPosts.slice(0, 8);
 ---
 
 <section class="py-16 bg-gray-50 dark:bg-gray-800">
 	<div class="container mx-auto px-4">
 		<div class="text-center mb-12">
-			<h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Latest Articles</h2>
+			<h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Latest articles</h2>
 			<p class="text-xl text-gray-600 dark:text-gray-300">
-				Stay updated with our latest insights and tutorials
+				Stay updated with the latest insights and guides
 			</p>
 		</div>
 
-		<div class="grid md:grid-cols-3 gap-8">
+		<div class="grid md:grid-cols-4 gap-8">
 			{threeLatestPosts.map((post: CollectionEntry<'blog'>) => (
 				<a
 					href={`/blog/${post.slug}`}

@@ -20,7 +20,7 @@ const categories = [...new Set(posts.map((post: CollectionEntry<'blog'>) => post
 >
 	<div class="container mx-auto px-4 py-12">
 		<header class="mb-12 text-center">
-			<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">AIfluent Blog</h1>
+			<!-- <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">AIfluent Blog</h1> -->
 			<p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
 				Explore our latest articles on AI development, best practices, and real-world applications.
 			</p>
@@ -68,9 +68,9 @@ const categories = [...new Set(posts.map((post: CollectionEntry<'blog'>) => post
 			</div>
 		</div>
 
-		<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+		<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
 			{sortedPosts.map((post: CollectionEntry<'blog'>) => (
-				<article>
+				<article data-category={post.data.category}>
 					<a href={`/blog/${post.slug}`} class="block group">
 						<div class="relative">
 							<img
@@ -182,7 +182,7 @@ const categories = [...new Set(posts.map((post: CollectionEntry<'blog'>) => post
 
 			// Filter articles
 			articles.forEach((article) => {
-				const articleCategory = article.querySelector('[data-category]')?.textContent;
+				const articleCategory = article.getAttribute('data-category');
 				if (category === 'all' || category === articleCategory) {
 					article.classList.remove('hidden');
 				} else {
@@ -202,7 +202,7 @@ const categories = [...new Set(posts.map((post: CollectionEntry<'blog'>) => post
 			// Get all searchable text from the article
 			const title = article.querySelector('h2')?.textContent?.toLowerCase() || '';
 			const description = article.querySelector('p')?.textContent?.toLowerCase() || '';
-			const category = article.querySelector('[data-category]')?.textContent?.toLowerCase() || '';
+			const category = article.getAttribute('data-category')?.toLowerCase() || '';
 			const date = article.querySelector('time')?.textContent?.toLowerCase() || '';
 			const tags = Array.from(article.querySelectorAll('span')).map(tag => tag.textContent?.toLowerCase() || '');
 			
@@ -227,7 +227,7 @@ const categories = [...new Set(posts.map((post: CollectionEntry<'blog'>) => post
 		categoryButtons.forEach((button) => {
 			const category = button.getAttribute('data-category');
 			const visibleArticlesInCategory = Array.from(articles).filter(article => {
-				const articleCategory = article.querySelector('[data-category]')?.textContent;
+				const articleCategory = article.getAttribute('data-category');
 				return !article.classList.contains('hidden') && (category === 'all' || category === articleCategory);
 			});
 
