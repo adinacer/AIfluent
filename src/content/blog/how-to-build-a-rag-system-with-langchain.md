@@ -1,8 +1,8 @@
 ---
 title: "How to Build a RAG System with LangChain"
 description: "A comprehensive guide to building a production-ready RAG system using LangChain and modern best practices."
-date: 2024-03-20
-author: "AI Builders Team"
+date: 2025-05-09
+author: "Adinacer"
 image: "/blog/rag-system.png"
 category: "guide"
 tags: ["langchain", "rag", "ai", "python"]
