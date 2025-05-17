@@ -3,7 +3,7 @@ title: "AI roadmap"
 description: "A Practical Guide for Python Developers"
 date: 2025-05-17
 author: "Adinacer"
-image: "/blog/rag-system.png"
+image: "/blog/ai-roadmap.png"
 category: "guide"
 tags: ["roadmap"]
 ---

@@ -3,8 +3,8 @@ title: "10 ChatGPT Use-Cases You Can Monetize Now"
 description: "Each idea includes a business model, potential income strategy, and actionable steps to get started."
 date: 2025-05-17
 author: "Adinacer"
-image: "/blog/rag-system.png"
-category: "ai-daily"
+image: "/blog/10-usecases.png"
+category: "guide"
 tags: ["startup"]
 ---
 

@@ -3,7 +3,7 @@ title: "AI Infra on a Budget"
 description: "hat You Really Need (2025 Developer Guide)"
 date: 2025-05-17
 author: "Adinacer"
-image: "/blog/rag-system.png"
+image: "/blog/ai-infra.png"
 category: "guide"
 tags: ["ai infra"]
 ---

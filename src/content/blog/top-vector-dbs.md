@@ -3,7 +3,7 @@ title: "Best Vector Databases for Solo Devs in 2025"
 description: "This guide covers five top-notch vector databases to get you moving fast."
 date: 2025-05-17
 author: "Adinacer"
-image: "/blog/rag-system.png"
+image: "/blog/vector-dbs.png"
 category: "guide"
 tags: ["vectordb"]
 ---
