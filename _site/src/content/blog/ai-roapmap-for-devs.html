@@ -1,0 +1,182 @@
+<h1 id="ai-roadmap-for-2025-a-practical-guide-for-python-developers">AI Roadmap for 2025: A Practical Guide for Python Developers</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>AI is moving fast—and 2025 is shaping up to be a big year for anyone serious about leveling up their skills. With tech like Retrieval-Augmented Generation (RAG), AI agents, and open-weight LLMs going mainstream, the learning path is becoming both clearer and more intense.</p>
+
+<p>This guide is built for intermediate Python developers who want to move from “knowing the basics” to actually building full-stack AI systems. You’ll get a step-by-step roadmap, each phase backed by top-tier GitHub projects to help you learn by doing.</p>
+
+<hr />
+
+<h2 id="1-nail-the-basics-core-math--concepts">1. Nail the Basics: Core Math &amp; Concepts</h2>
+
+<p>Before diving into frameworks, make sure your fundamentals are solid:</p>
+
+<ul>
+  <li>Linear algebra (vectors, matrices, eigenvalues)</li>
+  <li>Probability &amp; stats (Bayes’ theorem, distributions)</li>
+  <li>Calculus (gradients, partial derivatives)</li>
+  <li>Optimization (SGD, Adam)</li>
+</ul>
+
+<h3 id="try-it-in-python">Try it in Python:</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># Example: Dot product
+</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">dot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Dot product:</span><span class="sh">"</span><span class="p">,</span> <span class="n">dot</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>GitHub References:</strong></p>
+<ul>
+  <li><a href="https://github.com/fastai/fastbook">fastai/fastbook</a></li>
+  <li><a href="https://github.com/ageron/handson-ml3">ageron/handson-ml3</a></li>
+</ul>
+
+<hr />
+
+<h2 id="2-build-machine-learning-muscle">2. Build Machine Learning Muscle</h2>
+
+<p>Get familiar with the full ML workflow:</p>
+
+<ul>
+  <li>Cleaning and prepping data (Pandas, Scikit-learn)</li>
+  <li>Model training (Logistic Regression, Random Forests, XGBoost)</li>
+  <li>Evaluation and tuning (ROC-AUC, grid search, cross-validation)</li>
+</ul>
+
+<h3 id="sample-model-in-action">Sample Model in Action:</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="n">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="n">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="n">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="nf">load_iris</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="nc">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">clf</span><span class="p">.</span><span class="nf">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">clf</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Accuracy:</span><span class="sh">"</span><span class="p">,</span> <span class="nf">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">predictions</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><strong>GitHub References:</strong></p>
+<ul>
+  <li><a href="https://github.com/scikit-learn/scikit-learn">scikit-learn/scikit-learn</a></li>
+  <li><a href="https://github.com/jakevdp/PythonDataScienceHandbook">jakevdp/PythonDataScienceHandbook</a></li>
+</ul>
+
+<hr />
+
+<h2 id="3-deep-learning--transformers">3. Deep Learning &amp; Transformers</h2>
+
+<p>Transformers still run the show in NLP—and increasingly in vision and audio. Here’s what to focus on:</p>
+
+<ul>
+  <li>Master PyTorch basics</li>
+  <li>Learn Hugging Face Transformers</li>
+  <li>Fine-tune existing models on your own data</li>
+</ul>
+
+<h3 id="quick-demo">Quick Demo:</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">pipeline</span>
+
+<span class="n">generator</span> <span class="o">=</span> <span class="nf">pipeline</span><span class="p">(</span><span class="sh">"</span><span class="s">text-generation</span><span class="sh">"</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="sh">"</span><span class="s">gpt2</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="nf">generator</span><span class="p">(</span><span class="sh">"</span><span class="s">Deep learning will</span><span class="sh">"</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">num_return_sequences</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="sh">'</span><span class="s">generated_text</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><strong>GitHub References:</strong></p>
+<ul>
+  <li><a href="https://github.com/huggingface/transformers">huggingface/transformers</a></li>
+  <li><a href="https://github.com/pytorch/pytorch">pytorch/pytorch</a></li>
+</ul>
+
+<hr />
+
+<h2 id="4-from-models-to-systems-rag-agents-langchain">4. From Models to Systems: RAG, Agents, LangChain</h2>
+
+<p>In 2025, it’s not enough to know models—you need to build <strong>AI systems</strong>:</p>
+
+<ul>
+  <li>Retrieval-Augmented Generation (RAG)</li>
+  <li>Multi-agent orchestration</li>
+  <li>Frameworks like LangChain and LlamaIndex</li>
+</ul>
+
+<h3 id="basic-langchain-example">Basic LangChain Example:</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.chains</span> <span class="kn">import</span> <span class="n">RetrievalQA</span>
+<span class="kn">from</span> <span class="n">langchain.vectorstores</span> <span class="kn">import</span> <span class="n">FAISS</span>
+<span class="kn">from</span> <span class="n">langchain.embeddings</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbeddings</span>
+<span class="kn">from</span> <span class="n">langchain.llms</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">AI is transforming the world.</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">2025 will be a key year.</span><span class="sh">"</span><span class="p">]</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="nc">HuggingFaceEmbeddings</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="sh">"</span><span class="s">all-MiniLM-L6-v2</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">vector_db</span> <span class="o">=</span> <span class="n">FAISS</span><span class="p">.</span><span class="nf">from_texts</span><span class="p">(</span><span class="n">docs</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
+
+<span class="n">qa</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="p">.</span><span class="nf">from_chain_type</span><span class="p">(</span><span class="n">llm</span><span class="o">=</span><span class="nc">OpenAI</span><span class="p">(),</span> <span class="n">retriever</span><span class="o">=</span><span class="n">vector_db</span><span class="p">.</span><span class="nf">as_retriever</span><span class="p">())</span>
+<span class="n">answer</span> <span class="o">=</span> <span class="n">qa</span><span class="p">.</span><span class="nf">run</span><span class="p">(</span><span class="sh">"</span><span class="s">What is happening in 2025?</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>GitHub References:</strong></p>
+<ul>
+  <li><a href="https://github.com/hwchase17/langchain">hwchase17/langchain</a></li>
+  <li><a href="https://github.com/jerryjliu/llama_index">jerryjliu/llama_index</a></li>
+</ul>
+
+<hr />
+
+<h2 id="5-think-like-a-devops-engineer-deploy-smart">5. Think Like a DevOps Engineer: Deploy Smart</h2>
+
+<p>Knowing how to <strong>ship</strong> models matters just as much as training them:</p>
+
+<ul>
+  <li>Model serving with FastAPI or BentoML</li>
+  <li>CI/CD pipelines with Docker &amp; GitHub Actions</li>
+  <li>Inference tricks like quantization and ONNX</li>
+</ul>
+
+<h3 id="fastapi-inference-example">FastAPI Inference Example:</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">import</span> <span class="n">joblib</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="nc">FastAPI</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="sh">"</span><span class="s">model.pkl</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="nd">@app.get</span><span class="p">(</span><span class="sh">"</span><span class="s">/predict</span><span class="sh">"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="sh">"</span><span class="s">prediction</span><span class="sh">"</span><span class="p">:</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">([[</span><span class="n">value</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]}</span>
+</code></pre></div></div>
+
+<p><strong>GitHub References:</strong></p>
+<ul>
+  <li><a href="https://github.com/bentoml/BentoML">bentoml/BentoML</a></li>
+  <li><a href="https://github.com/tiangolo/fastapi">tiangolo/fastapi</a></li>
+</ul>
+
+<hr />
+
+<h2 id="final-thoughts">Final Thoughts</h2>
+
+<p>To thrive in AI in 2025, you need more than model fluency—you need system fluency. From math and machine learning to full-blown inference and orchestration, this roadmap is your playbook.</p>
+
+<h3 id="recap-github-resources">Recap GitHub Resources:</h3>
+
+<ul>
+  <li><a href="https://github.com/fastai/fastbook">fastai/fastbook</a></li>
+  <li><a href="https://github.com/ageron/handson-ml3">ageron/handson-ml3</a></li>
+  <li><a href="https://github.com/scikit-learn/scikit-learn">scikit-learn/scikit-learn</a></li>
+  <li><a href="https://github.com/huggingface/transformers">huggingface/transformers</a></li>
+  <li><a href="https://github.com/hwchase17/langchain">hwchase17/langchain</a></li>
+  <li><a href="https://github.com/jerryjliu/llama_index">jerryjliu/llama_index</a></li>
+  <li><a href="https://github.com/bentoml/BentoML">bentoml/BentoML</a></li>
+  <li><a href="https://github.com/tiangolo/fastapi">tiangolo/fastapi</a></li>
+</ul>

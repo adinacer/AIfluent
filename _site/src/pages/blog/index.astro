@@ -1,0 +1,228 @@
+<Layout
+	title="Blog - AIfluent | AI Development Tutorials and Guides"
+	description="Explore our latest articles on AI development, best practices, and real-world applications. Learn how to build and deploy production-ready AI applications."
+	image="/blog-og-image.jpg"
+>
+	<div class="container mx-auto px-4 py-12">
+		<header class="mb-12 text-center">
+			<!-- <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">AIfluent Blog</h1> -->
+			<p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+				Explore our latest articles on AI development, best practices, and real-world applications.
+			</p>
+		</header>
+
+		<!-- Category Filter -->
+		<div class="mb-8 flex flex-wrap gap-2 justify-center">
+			<button
+				class="px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors"
+				data-category="all"
+			>
+				All
+			</button>
+			{categories.map((category) => (
+				<button
+					class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+					data-category={category}
+				>
+					{category}
+				</button>
+			))}
+		</div>
+
+		<!-- Search Bar -->
+		<div class="mb-8 max-w-md mx-auto">
+			<div class="relative">
+				<input
+					type="search"
+					placeholder="Search articles..."
+					class="w-full px-4 py-2 pl-10 text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400"
+				/>
+				<svg
+					class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+					/>
+				</svg>
+			</div>
+		</div>
+
+		<div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+			{sortedPosts.map((post: CollectionEntry<'blog'>) => (
+				<article data-category={post.data.category}>
+					<a href={`/blog/${post.slug}`} class="block group">
+						<div class="relative">
+							<img
+								src={post.data.image}
+								alt={`${post.data.title} - AI Development Tutorial`}
+								class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+								loading="lazy"
+							/>
+							<div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity duration-300" />
+						</div>
+						<div class="p-6">
+							<div class="flex items-center gap-4 mb-4">
+								<span class="px-3 py-1 text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 rounded-full">
+									{post.data.category}
+								</span>
+								<time datetime={post.data.date.toISOString()} class="text-sm text-gray-600 dark:text-gray-400">
+									{new Date(post.data.date).toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric'
+									})}
+								</time>
+							</div>
+							<h2 class="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-500 dark:group-hover:text-primary-400 transition-colors">
+								{post.data.title}
+							</h2>
+							<p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-4">{post.data.description}</p>
+							<div class="flex flex-wrap gap-2">
+								{post.data.tags?.map((tag: string) => (
+									<span class="px-2 py-1 text-xs font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 rounded">
+										{tag}
+									</span>
+								))}
+							</div>
+						</div>
+					</a>
+				</article>
+			))}
+		</div>
+
+		<!-- Pagination -->
+		<div class="mt-12 flex justify-center">
+			<nav class="flex items-center gap-2" aria-label="Pagination">
+				<button
+					class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+					disabled
+				>
+					Previous
+				</button>
+				<button
+					class="px-4 py-2 text-sm font-medium text-white bg-primary-500 rounded-lg hover:bg-primary-600 transition-colors"
+				>
+					1
+				</button>
+				<button
+					class="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+				>
+					Next
+				</button>
+			</nav>
+		</div>
+	</div>
+
+	<!-- Back to Top Button -->
+	<button
+		id="back-to-top"
+		class="fixed bottom-8 right-8 p-3 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:text-primary-500 dark:hover:text-primary-400 transition-colors hidden"
+		aria-label="Back to top"
+	>
+		<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+		</svg>
+	</button>
+
+	<NewsletterForm />
+</Layout>
+
+<!-- Back to Top Script -->
+<script>
+	const backToTopButton = document.getElementById('back-to-top');
+
+	window.addEventListener('scroll', () => {
+		if (window.scrollY > 300) {
+			backToTopButton?.classList.remove('hidden');
+		} else {
+			backToTopButton?.classList.add('hidden');
+		}
+	});
+
+	backToTopButton?.addEventListener('click', () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	});
+
+	// Category Filter
+	const categoryButtons = document.querySelectorAll('[data-category]');
+	const articles = document.querySelectorAll('article');
+
+	categoryButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			const category = button.getAttribute('data-category');
+			
+			// Update active button
+			categoryButtons.forEach((btn) => {
+				btn.classList.remove('text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+				btn.classList.add('text-gray-600', 'dark:text-gray-400', 'bg-gray-100', 'dark:bg-gray-800');
+			});
+			button.classList.remove('text-gray-600', 'dark:text-gray-400', 'bg-gray-100', 'dark:bg-gray-800');
+			button.classList.add('text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+
+			// Filter articles
+			articles.forEach((article) => {
+				const articleCategory = article.getAttribute('data-category');
+				if (category === 'all' || category === articleCategory) {
+					article.classList.remove('hidden');
+				} else {
+					article.classList.add('hidden');
+				}
+			});
+		});
+	});
+
+	// Search Functionality
+	const searchInput = document.querySelector('input[type="search"]');
+	
+	searchInput?.addEventListener('input', (e) => {
+		const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+		
+		articles.forEach((article) => {
+			// Get all searchable text from the article
+			const title = article.querySelector('h2')?.textContent?.toLowerCase() || '';
+			const description = article.querySelector('p')?.textContent?.toLowerCase() || '';
+			const category = article.getAttribute('data-category')?.toLowerCase() || '';
+			const date = article.querySelector('time')?.textContent?.toLowerCase() || '';
+			const tags = Array.from(article.querySelectorAll('span')).map(tag => tag.textContent?.toLowerCase() || '');
+			
+			// Combine all searchable text
+			const searchableText = [
+				title,
+				description,
+				category,
+				date,
+				...tags
+			].join(' ').toLowerCase();
+			
+			// Show/hide based on search term match
+			if (searchableText.includes(searchTerm)) {
+				article.classList.remove('hidden');
+			} else {
+				article.classList.add('hidden');
+			}
+		});
+
+		// Update category buttons to reflect search results
+		categoryButtons.forEach((button) => {
+			const category = button.getAttribute('data-category');
+			const visibleArticlesInCategory = Array.from(articles).filter(article => {
+				const articleCategory = article.getAttribute('data-category');
+				return !article.classList.contains('hidden') && (category === 'all' || category === articleCategory);
+			});
+
+			if (visibleArticlesInCategory.length === 0) {
+				button.classList.add('opacity-50', 'cursor-not-allowed');
+				button.setAttribute('disabled', 'true');
+			} else {
+				button.classList.remove('opacity-50', 'cursor-not-allowed');
+				button.removeAttribute('disabled');
+			}
+		});
+	});
+</script> 

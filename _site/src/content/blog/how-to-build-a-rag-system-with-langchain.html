@@ -1,0 +1,210 @@
+<h1 id="how-to-build-a-rag-system-with-langchain">How to Build a RAG System with LangChain</h1>
+
+<p>If you’re building AI apps that need to give smart, context-aware answers, Retrieval-Augmented Generation (RAG) should be on your radar. In this guide, we’ll walk through how to set up a production-grade RAG system using <a href="https://github.com/hwchase17/langchain">LangChain</a>—a powerful toolset for developing language model-powered apps.</p>
+
+<h2 id="so-what-exactly-is-rag">So, What Exactly <em>Is</em> RAG?</h2>
+
+<p>RAG is like giving your language model a memory boost. Instead of making it guess everything from scratch, it helps the model pull in relevant info from a knowledge base before answering. Here’s how it works:</p>
+
+<ol>
+  <li><strong>Find</strong> useful documents related to the query</li>
+  <li><strong>Stuff</strong> the prompt with that context</li>
+  <li><strong>Generate</strong> a response using the combined input</li>
+</ol>
+
+<p>It’s like giving your LLM a cheat sheet before every test.</p>
+
+<hr />
+
+<h2 id="step-1-get-your-environment-ready">Step 1: Get Your Environment Ready</h2>
+
+<p>Let’s get our tools installed:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>langchain chromadb sentence-transformers
+</code></pre></div></div>
+
+<p>That gives us everything we need—LangChain to orchestrate, ChromaDB to store vectors, and a solid transformer model for embeddings.</p>
+
+<hr />
+
+<h2 id="step-2-build-the-rag-pipeline">Step 2: Build the RAG Pipeline</h2>
+
+<h3 id="load-and-chunk-your-documents">Load and Chunk Your Documents</h3>
+
+<p>First, we bring in our data and break it down into manageable pieces:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.document_loaders</span> <span class="kn">import</span> <span class="n">TextLoader</span>
+<span class="kn">from</span> <span class="n">langchain.text_splitter</span> <span class="kn">import</span> <span class="n">RecursiveCharacterTextSplitter</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="nc">TextLoader</span><span class="p">(</span><span class="sh">"</span><span class="s">data.txt</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">documents</span> <span class="o">=</span> <span class="n">loader</span><span class="p">.</span><span class="nf">load</span><span class="p">()</span>
+
+<span class="n">text_splitter</span> <span class="o">=</span> <span class="nc">RecursiveCharacterTextSplitter</span><span class="p">(</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+<span class="n">chunks</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="p">.</span><span class="nf">split_documents</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Why chunks? Because smaller, overlapping chunks help keep context tight without overwhelming the model.</p>
+
+<hr />
+
+<h3 id="create-embeddings-for-each-chunk">Create Embeddings for Each Chunk</h3>
+
+<p>Now we translate those chunks into embeddings—numeric representations the model can understand:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.embeddings</span> <span class="kn">import</span> <span class="n">HuggingFaceEmbeddings</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="nc">HuggingFaceEmbeddings</span><span class="p">(</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="sh">"</span><span class="s">sentence-transformers/all-MiniLM-L6-v2</span><span class="sh">"</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>This model is fast, lightweight, and great for general-purpose tasks.</p>
+
+<hr />
+
+<h3 id="store-them-in-a-vector-database">Store Them in a Vector Database</h3>
+
+<p>We’ll store these embeddings in Chroma so we can search through them later:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.vectorstores</span> <span class="kn">import</span> <span class="n">Chroma</span>
+
+<span class="n">vectorstore</span> <span class="o">=</span> <span class="n">Chroma</span><span class="p">.</span><span class="nf">from_documents</span><span class="p">(</span>
+    <span class="n">documents</span><span class="o">=</span><span class="n">chunks</span><span class="p">,</span>
+    <span class="n">embedding</span><span class="o">=</span><span class="n">embeddings</span><span class="p">,</span>
+    <span class="n">persist_directory</span><span class="o">=</span><span class="sh">"</span><span class="s">./data/chroma</span><span class="sh">"</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="build-your-retrieval-chain">Build Your Retrieval Chain</h3>
+
+<p>Next, we connect everything to an LLM:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.chains</span> <span class="kn">import</span> <span class="n">RetrievalQA</span>
+<span class="kn">from</span> <span class="n">langchain.llms</span> <span class="kn">import</span> <span class="n">OpenAI</span>
+
+<span class="n">llm</span> <span class="o">=</span> <span class="nc">OpenAI</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">qa_chain</span> <span class="o">=</span> <span class="n">RetrievalQA</span><span class="p">.</span><span class="nf">from_chain_type</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">chain_type</span><span class="o">=</span><span class="sh">"</span><span class="s">stuff</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">retriever</span><span class="o">=</span><span class="n">vectorstore</span><span class="p">.</span><span class="nf">as_retriever</span><span class="p">()</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now when you send a question, it’ll find the relevant info, plug it into the prompt, and send back a smart response.</p>
+
+<hr />
+
+<h2 id="best-practices-for-going-live">Best Practices for Going Live</h2>
+
+<p>Here are some real-world tips for making your RAG setup shine in production:</p>
+
+<h3 id="tune-your-chunking">Tune Your Chunking</h3>
+
+<ul>
+  <li>Don’t just go with default sizes—try different chunk sizes depending on your content.</li>
+  <li>Preserve structure where possible (e.g., paragraphs, bullet points).</li>
+  <li>More overlap helps with continuity, but slows things down—find the sweet spot.</li>
+</ul>
+
+<h3 id="pick-the-right-embeddings">Pick the Right Embeddings</h3>
+
+<ul>
+  <li>Match your model to the domain—some work better for legal, medical, or multilingual text.</li>
+  <li>Benchmark a few if you’re unsure.</li>
+  <li>Balance speed vs. accuracy based on your app’s needs.</li>
+</ul>
+
+<h3 id="be-smart-about-retrieval">Be Smart About Retrieval</h3>
+
+<ul>
+  <li>Hybrid search (e.g., combining keyword + vector) can boost recall.</li>
+  <li>Filter by metadata when possible (like date or author).</li>
+  <li>Use re-ranking for higher precision.</li>
+</ul>
+
+<h3 id="always-monitor">Always Monitor</h3>
+
+<ul>
+  <li>Track which documents are retrieved and whether they actually help.</li>
+  <li>Collect feedback from users and tune accordingly.</li>
+  <li>Build feedback loops to auto-improve results.</li>
+</ul>
+
+<hr />
+
+<h2 id="example-a-conversational-rag-bot">Example: A Conversational RAG Bot</h2>
+
+<p>Here’s a simple conversational setup with memory support:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">langchain.chains</span> <span class="kn">import</span> <span class="n">ConversationalRetrievalChain</span>
+<span class="kn">from</span> <span class="n">langchain.memory</span> <span class="kn">import</span> <span class="n">ConversationBufferMemory</span>
+
+<span class="n">memory</span> <span class="o">=</span> <span class="nc">ConversationBufferMemory</span><span class="p">(</span>
+    <span class="n">memory_key</span><span class="o">=</span><span class="sh">"</span><span class="s">chat_history</span><span class="sh">"</span><span class="p">,</span>
+    <span class="n">return_messages</span><span class="o">=</span><span class="bp">True</span>
+<span class="p">)</span>
+
+<span class="n">qa</span> <span class="o">=</span> <span class="n">ConversationalRetrievalChain</span><span class="p">.</span><span class="nf">from_llm</span><span class="p">(</span>
+    <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
+    <span class="n">retriever</span><span class="o">=</span><span class="n">vectorstore</span><span class="p">.</span><span class="nf">as_retriever</span><span class="p">(),</span>
+    <span class="n">memory</span><span class="o">=</span><span class="n">memory</span>
+<span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="nf">qa</span><span class="p">({</span><span class="sh">"</span><span class="s">question</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">What are the key components of a RAG system?</span><span class="sh">"</span><span class="p">})</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="sh">"</span><span class="s">answer</span><span class="sh">"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>This lets your bot remember past chats, making it feel more natural and helpful.</p>
+
+<hr />
+
+<h2 id="key-deployment-tips">Key Deployment Tips</h2>
+
+<p>Once you’re ready to go live, think beyond the code:</p>
+
+<h3 id="scalability">Scalability</h3>
+
+<ul>
+  <li>Use distributed vector stores if your dataset grows</li>
+  <li>Cache repeated queries</li>
+  <li>Load balance across multiple LLM instances</li>
+</ul>
+
+<h3 id="security">Security</h3>
+
+<ul>
+  <li>Sanitize all user inputs</li>
+  <li>Watch out for prompt injection attacks</li>
+  <li>Rate-limit and monitor access</li>
+</ul>
+
+<h3 id="performance">Performance</h3>
+
+<ul>
+  <li>Use async functions wherever you can</li>
+  <li>Cache embeddings so you don’t recompute</li>
+  <li>Batch LLM calls if possible</li>
+</ul>
+
+<hr />
+
+<h2 id="wrapping-up">Wrapping Up</h2>
+
+<p>LangChain gives you a flexible, powerful toolkit for building smart, context-aware AI apps. With a solid RAG setup, your app can pull in the right knowledge at the right time—and answer with confidence.</p>
+
+<p>Here’s your quick checklist before launching:</p>
+
+<ul>
+  <li>Understand your users and use case</li>
+  <li>Pick embedding and LLM models that match your needs</li>
+  <li>Optimize retrieval, chunking, and memory</li>
+  <li>Monitor quality and scale wisely</li>
+</ul>
+
+<p>Go build something awesome!</p>
