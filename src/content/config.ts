@@ -13,6 +13,19 @@ const blog = defineCollection({
   }),
 });
 
+const prompt = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    date: z.date(),
+    image: z.string(),
+    author: z.string(),
+    category: z.enum(['marketing', 'sales', 'writing', 'design', 'development']),
+  }),
+});
+
 export const collections = {
   blog,
+  prompt,
 };
