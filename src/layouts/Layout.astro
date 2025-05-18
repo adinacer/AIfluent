@@ -34,6 +34,19 @@ const canonical = canonicalURL ? new URL(canonicalURL, Astro.site) : Astro.url;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-N7CJTCSX9E"></script>
+		<script is:inline>
+			// @ts-ignore
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				// @ts-ignore
+				window.dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-N7CJTCSX9E');
+		</script>
 		
 		<!-- Primary Meta Tags -->
 		<title>{title}</title>
@@ -269,4 +282,4 @@ const canonical = canonicalURL ? new URL(canonicalURL, Astro.site) : Astro.url;
 	if (themeToggle) {
 		themeToggle.addEventListener('click', handleToggleClick);
 	}
-</script> 
+</script>
